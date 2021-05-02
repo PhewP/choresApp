@@ -46,14 +46,19 @@ DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
-### 7. Clear the config and generate the cache
+### 7. Migrate DB tables
+```
+php artisan migrate
+```
+
+### 8. Clear the config and generate the cache
 
 ```
 php artisan config:clear
 php artisan config:cache
 ```
 
-### 8. Use Artisan to run the server
+### 9. Use Artisan to run the server
 
 ```
 php artisan serve
