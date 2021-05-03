@@ -63,4 +63,11 @@ class User extends Authenticatable
         return $this->hasOne(Urating::class);
     }
 
+    public function task_created() {
+        return $this->hasMany(Task::class, 'creator_id');
+    }
+
+    public function task_accepted() {
+        return $this->hasMany(Task::class, 'performer_id');
+    }
 }
