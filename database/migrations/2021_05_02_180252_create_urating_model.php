@@ -21,7 +21,7 @@ class CreateUratingModel extends Migration
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
-                ->onDelete('cascade')->nullable();
+                ->onDelete('cascade');
         });
     }
 
