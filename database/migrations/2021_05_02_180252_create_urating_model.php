@@ -18,6 +18,7 @@ class CreateUratingModel extends Migration
             $table->float('score')->nullable();
             $table->string('speed')->nullable();
             $table->float('accuracy')->nullable();
+            $table->float('performance')->nullable();
             $table->foreignId('user_id')
                 ->constrained()
                 ->onUpdate('cascade')
