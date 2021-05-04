@@ -17,14 +17,14 @@ class CreateTaskTable extends Migration
             $table->id();
             $table->float('reward');
             $table->string('description');
-            $table->timestamp('ini_date')   ->useCurrent();
+            $table->timestamp('ini_date')->useCurrent();
             $table->timestamp('end_date')->nullable();
             $table->timestamp('done_date')->nullable();
             $table->set('status', ['pending', 'in_progress', 'done']);
-            $table->foreignId('id_creator')->constrained('users');
-            $table->foreignId('id_performer')->constrained('users')
-                ->nullable();
-            $table->boolean('approved');
+            $table->foreignId('creator_id')->constrained('users');
+            $table->foreignId('performer_id')->nullable()
+            ->constrained('users');
+            $table->boolean('approved')->default(false);
         });
     }
 
