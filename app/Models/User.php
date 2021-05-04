@@ -70,4 +70,8 @@ class User extends Authenticatable
     public function task_accepted() {
         return $this->hasMany(Task::class, 'performer_id');
     }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
+    }
 }
