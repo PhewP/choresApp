@@ -28,6 +28,7 @@ class Task extends Model
         'status',
         'performer_id',
         'approved',
+        'category_id',
     ];
 
     public function user_creator() {
@@ -36,6 +37,14 @@ class Task extends Model
 
     public function user_performer() {
         return $this->belongsTo(User::class, 'performer_id');
+    }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function trating() {
+        return $this->hasOne(Trating::class);
     }
 
 }
