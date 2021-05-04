@@ -95,4 +95,8 @@
                 </div>
             </div>
         </div>
-@endsection        
+@endsection 
+
+@section('content')
+@livewire('task-list')
+@endsection
