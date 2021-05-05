@@ -95,5 +95,6 @@
 @endsection 
 
 @section('content')
+@livewire('taskcreator')
 @livewire('task-list')
 @endsection
