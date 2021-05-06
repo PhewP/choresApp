@@ -17,7 +17,7 @@ class ModUsersTable extends Migration
             $table->string('province');
             $table->string('address');
             $table->string('city');
-            $table->float('coins')->default(0);
+            $table->float('coins')->default(5000);
         });
     }
 
