@@ -20,11 +20,14 @@ class TaskList extends Component
         $myUser = User::where('id',Auth::id())->first();
         if(isset($myUser))
         {
-            $usersSameLocation = User::where('city', $myUser->id)->get();
+            $usersSameLocation = User::where('province', $myUser->province)->get();
 
             foreach($usersSameLocation as $user)
             {
-                array_merge($this->taskList, $user->task_created());
+                foreach($user->task_created()->get() as $task)
+                {
+                    $this->taskList[] = $task;
+                }
             }
         }
 
