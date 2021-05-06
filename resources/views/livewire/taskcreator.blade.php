@@ -3,10 +3,10 @@
     <div class="feed-text px-2">
       <h6 class="mt-2">Crear tarea</h6>
     </div>
-    <i id="plusButton" class="fa fa-plus" role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded:="true" aria-controls="collapseExample">
+    <i id="plusButton" class="fa fa-plus" role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded:="false" aria-controls="collapseExample">
     </i>
   </div>
-  <div class="collapse.show" id="collapseExample">
+  <div class="collapse.in" id="collapseExample">
 
     <div>
       <div class="card card-body">

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -10,9 +11,20 @@ class Navbar extends Component
 {
     public $coins;
 
-    public function render()
+    protected $listeners = ['taskCreated' => 'updateCoins'];
+
+    public function updateCoins()
     {
         $this->coins = auth()->user()->coins;
+    }
+
+    public function mount()
+    {
+        $this->updateCoins();
+    }
+
+    public function render()
+    {
         return view('livewire.navbar');
     }
 }

@@ -58,6 +58,8 @@ class Taskcreator extends Component
         $user = User::find($id);
         $user->coins -= $this->reward;
         $user->save();
+        session()->flash('message', 'Tarea creada');
+        $this->emit('taskCreated');
     }
 
     public function mount()
