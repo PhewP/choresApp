@@ -16,7 +16,7 @@ class Task extends Model
      * The attributes that are mass assignable.
      *
      * @var array
-    */
+     */
 
     protected $fillable = [
         'title',
@@ -26,25 +26,29 @@ class Task extends Model
         'end_date',
         'done_date',
         'status',
+        'creator_id',
         'performer_id',
         'approved',
         'category_id',
     ];
 
-    public function user_creator() {
+    public function user_creator()
+    {
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public function user_performer() {
+    public function user_performer()
+    {
         return $this->belongsTo(User::class, 'performer_id');
     }
 
-    public function comment() {
+    public function comment()
+    {
         return $this->hasMany(Comment::class);
     }
 
-    public function trating() {
+    public function trating()
+    {
         return $this->hasOne(Trating::class);
     }
-
 }
