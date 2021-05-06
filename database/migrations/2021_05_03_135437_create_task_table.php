@@ -20,10 +20,10 @@ class CreateTaskTable extends Migration
             $table->timestamp('ini_date')->useCurrent();
             $table->timestamp('end_date')->nullable();
             $table->timestamp('done_date')->nullable();
-            $table->set('status', ['pending', 'in_progress', 'done']);
+            $table->set('status', ['pending', 'in_progress', 'done'])->default('pending');
             $table->foreignId('creator_id')->constrained('users');
             $table->foreignId('performer_id')->nullable()
-            ->constrained('users');
+                ->constrained('users');
             $table->boolean('approved')->default(false);
         });
     }
