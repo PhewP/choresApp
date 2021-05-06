@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Task;
@@ -21,34 +22,44 @@ class Taskcreator extends Component
     public $categoryNames = [];
 
 
-    protected function rules() {
+    protected function rules()
+    {
         return [
             'title' => ['required', 'min:10'],
-            'reward' => ['required', 'numeric', 'min:1', 'max:'.auth()->user()->coins],
-            'description' => ['required', 'min:20'], 
-            'categoryName' =>['required', Rule::in([$this->categoryName])],
-            'ini_date' => ['required', 'after:'.now()],
-            'end_date' => ['required', 'after:'.$this->ini_date]
+            'reward' => ['required', 'numeric', 'min:1', 'max:' . auth()->user()->coins],
+            'description' => ['required', 'min:20'],
+            'categoryName' => ['required', Rule::in([$this->categoryName])],
+            'ini_date' => ['required', 'after:' . now()],
+            'end_date' => ['required', 'after:' . $this->ini_date]
         ];
     }
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName);
     }
 
-    public function createTask() {
+    public function createTask()
+    {
         $this->validate();
-        $id = Auth::id();
-        $category = Category::where('name', $this->categoryName)->first();
+        $id = auth()->user()->id;
+        $categoryId = Category::where('name', $this->categoryName)->first()->id;
 
-        if(isset($category)) {
-
-        }
+        Task::create([
+            'title' => $this->title,
+            'reward' => $this->reward,
+            'description' => $this->description,
+            'ini_date' => $this->ini_date,
+            'end_date' => $this->end_date,
+            'creator_id' => $id,
+            'category_id' => $categoryId,
+        ]);
     }
 
-    public function mount() {
+    public function mount()
+    {
         $allCategories = Category::get();
-        foreach($allCategories as $category) {
+        foreach ($allCategories as $category) {
             $this->categoryNames[] = $category->name;
         }
     }
