@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 
 
@@ -54,6 +54,10 @@ class Taskcreator extends Component
             'creator_id' => $id,
             'category_id' => $categoryId,
         ]);
+
+        $user = User::find($id);
+        $user->coins -= $this->reward;
+        $user->save();
     }
 
     public function mount()
