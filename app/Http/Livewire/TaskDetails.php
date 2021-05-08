@@ -62,6 +62,8 @@ class TaskDetails extends Component
     {
         if (now() > $this->task->end_date) {
             $this->expired = true;
+            $this->task->status = 'done';
+            $this->task->save();
         }
     }
 
