@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 
@@ -61,10 +60,8 @@ class TaskDetails extends Component
         $categoryId = Category::where('name', $this->categoryName)->first()->id;
 
         $actualReward = $this->task->reward;
-        echo $actualReward;
 
         $actualReward -= $this->reward;
-        echo$
 
             $this->task->title = $this->title;
             $this->task->reward = $this->reward;
