@@ -18,6 +18,7 @@ class TaskDetails extends Component
 
     public $categoryNames = [];
     public $task;
+    public $accepted;
 
     protected function rules()
     {
@@ -36,13 +37,23 @@ class TaskDetails extends Component
         return view('livewire.task-details');
     }
 
+    public function checkAccepted()
+    {
+        $performerId = $this->task->performer_id;
+
+        if (isset($performerId) && ($performerId == auth()->user()->id)) {
+            $this->accepted = true;
+        }
+    }
+
+
     public function mount($task)
     {
         $this->task = $task;
         $this->title = $task->title;
         $this->description = $task->description;
         $this->reward = $task->reward;
-
+        $this->checkAccepted();
         $allCategories = Category::get();
         foreach ($allCategories as $category) {
             $this->categoryNames[] = $category->name;
@@ -52,6 +63,7 @@ class TaskDetails extends Component
     {
         $this->validateOnly($propertyName);
     }
+
 
     public function modifyTask()
     {
@@ -63,12 +75,12 @@ class TaskDetails extends Component
 
         $actualReward -= $this->reward;
 
-            $this->task->title = $this->title;
-            $this->task->reward = $this->reward;
-            $this->task->description = $this->description;
-            $this->task->ini_date = $this->ini_date;
-            $this->task->end_date = $this->end_date;
-            $this->task->category_id = $categoryId;
+        $this->task->title = $this->title;
+        $this->task->reward = $this->reward;
+        $this->task->description = $this->description;
+        $this->task->ini_date = $this->ini_date;
+        $this->task->end_date = $this->end_date;
+        $this->task->category_id = $categoryId;
 
         $user = User::find($id);
         $user->coins += $actualReward;
@@ -78,4 +90,11 @@ class TaskDetails extends Component
         $this->emit('taskCreated');
     }
 
+    public function acceptTask()
+    {
+        $this->accepted = true;
+        session()->flash('message', 'Tarea Aceptada');
+        $this->task->performer_id = auth()->user()->id;
+        $this->task->save();
+    }
 }
