@@ -16,7 +16,7 @@ class Trate extends Component
 
     public function render()
     {
-        return view('livewire.urate');
+        return view('livewire.trate');
     }
 
     protected function rules()
