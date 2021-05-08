@@ -18,7 +18,13 @@ class TaskDetails extends Component
 
     public $categoryNames = [];
     public $task;
+
     public $accepted;
+    public $done;
+    public $expired;
+    public $approved;
+    public $rejected;
+
 
     protected function rules()
     {
@@ -34,7 +40,13 @@ class TaskDetails extends Component
 
     public function render()
     {
-        return view('livewire.task-details');
+        if ($this->task)
+            return view('livewire.task-details');
+    }
+
+    public function checkApproved()
+    {
+        $this->approved = $this->task->approved;
     }
 
     public function checkAccepted()
@@ -46,6 +58,19 @@ class TaskDetails extends Component
         }
     }
 
+    public function checkExpired()
+    {
+        if (now() > $this->task->end_date) {
+            $this->expired = true;
+        }
+    }
+
+    public function checkDone()
+    {
+        if ($this->task->status == 'done')
+            $this->done = true;
+    }
+
 
     public function mount($task)
     {
@@ -54,6 +79,9 @@ class TaskDetails extends Component
         $this->description = $task->description;
         $this->reward = $task->reward;
         $this->checkAccepted();
+        $this->checkApproved();
+        $this->checkDone();
+        $this->checkExpired();
         $allCategories = Category::get();
         foreach ($allCategories as $category) {
             $this->categoryNames[] = $category->name;
@@ -96,6 +124,16 @@ class TaskDetails extends Component
         session()->flash('message', 'Tarea Aceptada');
         $this->task->performer_id = auth()->user()->id;
         $this->task->status = 'in_progress';
-        $this->task->$this->task->save();
+        $this->task->save();
+    }
+
+    public function doneTask()
+    {
+        if (!($this->expired)) {
+            $this->done = true;
+            $this->task->status = 'done';
+            $this->task->done_date = now();
+            $this->task->save();
+        }
     }
 }

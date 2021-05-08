@@ -79,21 +79,35 @@
                     <div class="mt-3 mr-3">
                       <x-jet-button type="submit">Limpiar</x-jet-button>
                     </div>
-
-
                   </form>
                 </div>
               </div>
             </div>
-            @elseif(!$accepted)
+
+            @elseif(!$accepted && !$done)
             <div class="mt-3 mr-3">
               <x-jet-button wire:click.stop="acceptTask">
-                Aceptar
+                Aceptar.
                 <!-- <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a> -->
               </x-jet-button>
-              @else
+              @elseif(!$done)
               <div class="alert alert-success">
-                Tarea Aceptada
+                Tarea Aceptada.
+              </div>
+              <x-jet-button wire:click.stop="doneTask">
+                Terminar Tarea
+              </x-jet-button>
+              @elseif($accepted && $expired)
+              <div class="alert alert-warning">
+                La tarea ha expirado.
+              </div>
+              @elseif($done)
+              <div class="alert alert-warning">
+                Tarea realizada a la espera de ser aprobada.
+              </div>
+              @elseif(isset($approved) && $approved)
+              <div class="alert alert-success">
+                Tarea realizada con éxito.
               </div>
             </div>
             @endif
