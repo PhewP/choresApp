@@ -1,4 +1,4 @@
 @extends('layouts.base')
 @section('content')
-@livewire('trate')
+@livewire('trate', ['task' => $task])
 @endsection
