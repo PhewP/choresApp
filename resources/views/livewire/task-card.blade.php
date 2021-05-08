@@ -1,9 +1,10 @@
-<div class="bg-white border mt-2">
+<div class="bg-white border mt-2" id="task-{{$task->id}}">
     <div id="post-header-{{$task->id}}" class=" d-flex flex-row justify-content-between align-items-center p-3 ">
         <div class="d-flex flex-row align-items-center feed-text">
-            <div id="post-info" class="d-flex flex-column flex-wrap ml-2">
-                <span class="font-weight-bold">Usuario: {{$user->name}}</span>
-                <span class="font-weight-bold">Tarea: <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a></span>
+            <div id="post-info-{{$task->id}}" class="d-flex flex-column flex-wrap ml-2">
+                <span class="font-weight-bold"><b>Usuario:</b> <a href="{{ route('dashboard', ['user_id'=>$user->id]) }}" class="underline">{{$user->name}}</a></span>
+                <span class="font-weight-bold"><b>Tarea:</b> <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a></span>
+                <span class="font-weight-bold"><b>Recompensa: </b>{{$task->reward}} </span>
 
                 <span class="text-black-50 time">Fecha de Inicio: {{$task->ini_date}}</span>
                 <span class="text-black-50 time">Fecha de Finalización: {{$task->end_date}}</span>
@@ -12,23 +13,26 @@
     </div>
 
     <div id="post-content-{{$task->id}}"></div>
-    <span class="p-2 px-3" id="post-message">Descripción: {{$task->description}}</span>
+    <span class="p-2 px-3" id="post-message-{{$task->id}}"><b>Descripción:</b> {{$task->description}}</span>
     <div class="d-flex flex-column comment-section" id="myGroup-{{$task->id}}">
+
         <div class="p-2 p-2 border-bottom">
             <div class="d-flex flex-row fs-12">
-                <div class="like p-2 cursor" id="likeBtn-{{$task->id}}" role='button' wire:click.stop="addLike">
-                    <i class="fa fa-thumbs-up"><span id="likesCounter" class="badge badge-light" style="color:black">{{$likes}}</span></i>
+                <div class="like p-2 cursor" id="likeBtn-{{$task->id}}" role='button' wire:click="addLike">
+                    <i class="fa fa-thumbs-up"><span id="likesCounter-{{$task->id}}" class="badge badge-light" style="color:black">{{$likes}}</span></i>
                 </div>
                 <div class="p-2 cursor" role="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-{{$task->id}}" aria-expanded="false" aria-controls="collapseExample">
-                    <i class="fa fa-comments-o"><span id="commentsCounter" class="badge badge-light" style="color:black">{{$nComments}}</span></i>
+                    <i class="fa fa-comments-o"><span id="commentsCounter-{{$task->id}}" class="badge badge-light" style="color:black">{{$nComments}}</span></i>
                 </div>
             </div>
         </div>
+
         <div id="collapseComments-{{$task->id}}" class="collapse">
-            <div id=" comments" class="d-flex flex-column p-2">
+
+            <div id="comments-{{$task->id}}" class="d-flex flex-column p-2">
                 @if(isset($comments) && !$comments->isEmpty())
                 @foreach($comments as $comment)
-                <div class="d-flex flex-row align-items-center feed-text px-2" id="comment-{{$comment->id}}">
+                <div class="" id="comment-{{$comment->id}}">
                     <!-- Settings Dropdown -->
                     <div class="ml-3 relative">
                         <x-jet-dropdown align="center" width="48">
@@ -45,28 +49,32 @@
                             <x-slot name="content">
                                 <!-- Account Management -->
                                 <div class="block px-4 py-2 text-xs text-gray-400">
-                                    <button wire:click="deleteComment({{$comment->id}}" )> {{ __('Eliminar') }} </button>
+                                    <button wire:click="deleteComment({{$comment->id}})"> {{ __('Eliminar') }} </button>
                             </x-slot>
                         </x-jet-dropdown>
                     </div>
+                    <div class="d-flex flex-column flex-wrap ml-2">
+                        <span class="font-weight-bold"><b>Usuario</b>:
+                            <a href="{{ route('dashboard', ['user_id'=> $commentUsers[$comment->id]->id]) }}" class="underline">{{$commentUsers[$comment->id]->name}}</a>
+                        </span>
+                        <span class="text-black-50 time">Fecha: {{$comment->created_at}}</span>
+                        <span class="font-weight-bold"><b>Comentó:</b> </br>{{$comment->description}}</span>
+                    </div>
                 </div>
 
-                <div class="d-flex flex-column flex-wrap ml-2">
-                    <span class="font-weight-bold"><b>Usuario:</b></span>
-                    <span class="text-black-50 time">Fecha: {{$comment->created_at}}</span>
-                    <span class="font-weight-bold"><b>Comentó:</b>{{$comment->description}}</span>
-                </div>
                 <div class="border-t border-gray-100"></div>
                 @endforeach
                 @endif
             </div>
+
             <div class=" d-flex flex-row align-items-start" style="margin-top: 20px;">
                 <div class='circle-img img-circle rounded-circle'>
                 </div>
-                <textarea class="form-control ml-1 shadow-none textarea" id="comment-message" placeholder="Escriba un comentario..." wire:model.lazy="commentText"></textarea>
+                <textarea class="form-control ml-1 shadow-none textarea" id="comment-message-{{$task->id}}" placeholder="Escriba un comentario..." wire:model.lazy="commentText"></textarea>
             </div>
+
             <div class="mt-2 text-right action-collapse">
-                <x-jet-button type="button" id="comment-button" wire:click="createComment">Comment</x-jet-button>
+                <x-jet-button type="button" id="comment-button-{{$task->id}}" wire:click.stop="createComment">Comment</x-jet-button>
                 <x-jet-button wire:click="clearComment" class="shadow-none" role="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-{{$task->id}}" aria-expanded="false" aria-controls="collapseExample">
                     Cancel
                 </x-jet-button>
@@ -74,6 +82,4 @@
 
         </div>
     </div>
-
-
 </div>

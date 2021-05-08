@@ -5,11 +5,11 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Task;
 use App\Models\User;
-use PhpOption\None;
+use App\Models\Comment;
 
 class TaskCard extends Component
 {
-    protected $taskId;
+    public $taskId;
     public $task;
     public $taskDate;
     public $user;
@@ -18,16 +18,22 @@ class TaskCard extends Component
     public $nComments;
     public $commentText;
     public $comments;
+    public $commentUsers = [];
 
     public function render()
     {
         return view('livewire.task-card');
     }
 
+
     public function mount($taskId)
     {
-        $this->task = Task::find($taskId);
-        $this->user = $this->task->user_creator;
+        $this->taskId = $taskId;
+        if ($this->taskId) {
+            $this->task = Task::find($this->taskId);
+            $this->user = $this->task->user_creator;
+            $this->refreshComments();
+        }
     }
 
     public function addLike()
@@ -43,6 +49,7 @@ class TaskCard extends Component
             $this->likes++;
             $this->liked = true;
         }
+        $this->refreshComments();
     }
 
     public function clearComment()
@@ -50,12 +57,32 @@ class TaskCard extends Component
         $this->commentText = null;
     }
 
-    public function createComment()
+    public function updated()
     {
+        $this->refreshComments();
     }
 
-    public function deleteComment()
+
+    public function createComment()
     {
-        echo "borrado";
+        Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->taskId]);
+        $this->refreshComments();
+    }
+
+    public function deleteComment($commentId)
+    {
+        Comment::destroy($commentId);
+        $this->refreshComments();
+    }
+
+    public function refreshComments()
+    {
+        $this->commentUsers = [];
+        $this->comments = Comment::where('task_id', $this->taskId)->get();
+        foreach ($this->comments as $comment) {
+            $this->commentUsers[$comment->id] = $comment->user;
+        }
+
+        $this->nComments = $this->comments->count();
     }
 }
