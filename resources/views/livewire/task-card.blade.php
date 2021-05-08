@@ -50,6 +50,7 @@
                                 <!-- Account Management -->
                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                     <button wire:click="deleteComment({{$comment->id}})"> {{ __('Eliminar') }} </button>
+                                </div>
                             </x-slot>
                         </x-jet-dropdown>
                     </div>
