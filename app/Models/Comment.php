@@ -15,16 +15,20 @@ class Comment extends Model
      */
     protected $fillable = [
         'title',
+        'user_id',
+        'task_id',
         'description',
         'edited',
         'likes'
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function task() {
+    public function task()
+    {
         return $this->belongsTo(Task::class);
     }
 }
