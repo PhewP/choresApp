@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Livewire\TaskDetails;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,11 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/mytasks', function() {
+Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
     return view('myTask');
 })->name('myTask');
 
-Route::get('/task/{task}', 'TaskDetailsController@render')->name('task_detail');
+Route::middleware(['auth:sanctum', 'verified'])->get('/task/{task}', 'TaskDetailsController@render')->name('task_detail');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/{user_id}', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
