@@ -13,13 +13,13 @@
                                 @foreach($taskCreatedList as $task)
                                 @if( $task->status == $active )
                                 <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a>
+                                <span class="badge rounded-pill bg-info text-dark">En progreso</span>
+
                                 @endif
                                 @endforeach
                             </div>
                         </div>
                     </div>
-
-
 
                     <div style="margin-bottom: 30px;">
                         <div class="card card-body">
@@ -28,6 +28,7 @@
                                 @foreach($taskCreatedList as $task)
                                 @if($task->status == "pending")
                                 <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a>
+                                <span class="badge rounded-pill bg-primary">Pendiente</span>
                                 <div class="ml-3 relative">
                                     <x-jet-dropdown align="center" width="48">
                                         <x-slot name="trigger">
@@ -62,8 +63,16 @@
                                 @foreach($taskCreatedList as $task)
                                 @if($task->status == "done")
                                 <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a>
-                                @endif
-                                @endforeach
+                                @if($task->end_date < now()) <span class="badge rounded-pill bg-secondary">Expirada</span>
+                                    @elseif($task->approved == null)
+                                    <span class="badge rounded-pill bg-danger">Validación pendiente</span>
+                                    @elseif($task->approved == 1)
+                                    <span class="badge rounded-pill bg-success">Success</span>
+                                    @else
+                                    <span class="badge rounded-pill bg-danger">Danger</span>
+                                    @endif
+                                    @endif
+                                    @endforeach
                             </div>
                         </div>
                     </div>
@@ -85,6 +94,7 @@
                                 @foreach($taskAceptedList as $task)
                                 @if( $task->status == $active )
                                 <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a>
+                                <span class="badge rounded-pill bg-info text-dark">En progreso</span>
                                 @endif
                                 @endforeach
 
@@ -100,6 +110,13 @@
                                 @foreach($taskAceptedList as $task)
                                 @if( $task->status != $active )
                                 <a href="{{ route('task_detail', ['task'=>$task->id]) }}" class="underline">{{$task->title}}</a>
+                                @if($task->approved == null)
+                                <span class="badge rounded-pill bg-info text-dark">Pendiente de validación</span>
+                                @elseif($task->approved == 1)
+                                <span class="badge rounded-pill bg-success">Aceptada</span>
+                                @else
+                                <span class="badge rounded-pill bg-info text-dark">Rechazada</span>
+                                @endif
                                 @endif
                                 @endforeach
                             </div>
