@@ -18,7 +18,7 @@ class CreateCommentTable extends Migration
             $table->text('description');
             $table->integer('likes')->default(0);
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('task_id')->constrained('tasks');
+            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
             $table->timestamps();
         });
     }
