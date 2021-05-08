@@ -21,9 +21,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/mytasks', function () {
     return view('myTask');
 })->name('myTask');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/rating', function () {
-    return view('rating');
-})->name('rating');
+Route::middleware(['auth:sanctum', 'verified'])->get('/rating/{task}', 'Rating@render')->name('rating');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/task/{task}', 'TaskDetailsController@render')->name('task_detail');
 
