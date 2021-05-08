@@ -95,6 +95,7 @@ class TaskDetails extends Component
         $this->accepted = true;
         session()->flash('message', 'Tarea Aceptada');
         $this->task->performer_id = auth()->user()->id;
-        $this->task->save();
+        $this->task->status = 'in_progress';
+        $this->task->$this->task->save();
     }
 }
