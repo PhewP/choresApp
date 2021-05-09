@@ -62,11 +62,11 @@
           <div class="mt-3 mr-3">
             <x-jet-button type="submit">Crear</x-jet-button>
           </div>
-          <div class="mt-3 mr-3">
-            <x-jet-button type="submit">Limpiar</x-jet-button>
-          </div>
 
         </form>
+        <div class="mt-3 mr-3">
+          <x-jet-button type="submit" wire:click="cleanInputs">Limpiar</x-jet-button>
+        </div>
       </div>
     </div>
   </div>
