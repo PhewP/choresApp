@@ -34,6 +34,7 @@
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
+                @livewire('notification')
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
                     <x-jet-dropdown align="right" width="48">
