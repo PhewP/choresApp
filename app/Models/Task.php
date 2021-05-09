@@ -48,4 +48,9 @@ class Task extends Model
     {
         return $this->hasOne(Trating::class);
     }
+
+    public function notification()
+    {
+        return $this->hasOne(Notification::class);
+    }
 }
