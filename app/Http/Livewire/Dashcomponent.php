@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Dashcomponent extends Component
 {
     public $user;
-    public $trateList = [];
+    public $trateList;
     public $score;
     public $speed;
     public $accuracy;
@@ -17,12 +17,13 @@ class Dashcomponent extends Component
 
     public function render()
     {
+        $this->refresh();
         return view('livewire.dashcomponent');
     }
 
     public function getTrating()
     {
-        $this->trateList = [];
+        $this->trateList = null;
 
         $this->trateList = DB::table('tratings')
             ->join('tasks', 'tratings.task_id', '=', 'tasks.id')
@@ -33,6 +34,11 @@ class Dashcomponent extends Component
     public function mount($user_id)
     {
         $this->user = $user_id;
+        $this->refresh();
+    }
+
+    public function refresh()
+    {
         $this->getTrating();
         $this->avgScore();
         $this->avgSpeed();
@@ -42,7 +48,7 @@ class Dashcomponent extends Component
 
     public function avgScore()
     {
-
+        $this->score = 0;
         if (isset($this->trateList) && !$this->trateList->isEmpty()) {
             foreach ($this->trateList as $rate) {
                 $this->score += $rate->score;
@@ -53,9 +59,10 @@ class Dashcomponent extends Component
     }
     public function avgSpeed()
     {
+        $this->speed = 0;
         if (isset($this->trateList) && !$this->trateList->isEmpty()) {
             foreach ($this->trateList as $rate) {
-                $this->speed = $rate->speed;
+                $this->speed += $rate->speed;
             }
             $this->speed = $this->speed / count($this->trateList);
         } else
@@ -63,9 +70,10 @@ class Dashcomponent extends Component
     }
     public function avgAccuracy()
     {
+        $this->accuracy = 0;
         if (isset($this->trateList) && !$this->trateList->isEmpty()) {
             foreach ($this->trateList as $rate) {
-                $this->accuracy = $rate->accuracy;
+                $this->accuracy += $rate->accuracy;
             }
             $this->accuracy = $this->accuracy / count($this->trateList);
         } else
@@ -73,9 +81,10 @@ class Dashcomponent extends Component
     }
     public function avgPerformance()
     {
+        $this->performance = 0;
         if (isset($this->trateList) && !$this->trateList->isEmpty()) {
             foreach ($this->trateList as $rate) {
-                $this->performance = $rate->performance;
+                $this->performance += $rate->performance;
             }
             $this->performance = $this->performance / count($this->trateList);
         } else

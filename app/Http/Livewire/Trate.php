@@ -57,6 +57,7 @@ class Trate extends Component
 
     public function aceptar()
     {
+        $this->createRate();
         $performerId = $this->task->performer_id;
         $user = User::find($performerId);
         $user->coins += $this->task->reward;
@@ -75,6 +76,7 @@ class Trate extends Component
 
     public function rechazar()
     {
+        $this->createRate();
         $creatorId = $this->task->creator_id;
         $user = User::find($creatorId);
         $user->coins += $this->task->reward;
