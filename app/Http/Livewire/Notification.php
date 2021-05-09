@@ -53,7 +53,7 @@ class Notification extends Component
         $this->users = [];
         $this->tasks = [];
 
-        $this->notifications = NotificationModel::where('destination_id', auth()->user()->id)->get();
+        $this->notifications = NotificationModel::where('destination_id', auth()->user()->id)->orderByDesc('created_at')->get();
 
         foreach ($this->notifications as $notification) {
             $this->users[$notification->id] = $notification->user_origin;
