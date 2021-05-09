@@ -27,10 +27,24 @@ class Notification extends Component
         ]);
     }
 
+    public function updated()
+    {
+        $this->refresh();
+    }
+
+    public function hydrated()
+    {
+        $this->refresh();
+    }
+
+    public function mount()
+    {
+        $this->refresh();
+    }
+
     public function render()
     {
         $this->refresh();
-        $this->nNotifications = isset($notifications) ? count($this->notifications) : 0;
         return view('livewire.notification');
     }
 
@@ -42,13 +56,14 @@ class Notification extends Component
         $this->notifications = NotificationModel::where('destination_id', auth()->user()->id)->get();
 
         foreach ($this->notifications as $notification) {
-            $users[$notification->id] = $notification->user_origin;
-            $tasks[$notification->id] = $notification->task;
+            $this->users[$notification->id] = $notification->user_origin;
+            $this->tasks[$notification->id] = $notification->task;
         }
     }
 
     public function refresh()
     {
         $this->fetchNotifications();
+        $this->nNotifications = isset($this->notifications) ? count($this->notifications) : 0;
     }
 }

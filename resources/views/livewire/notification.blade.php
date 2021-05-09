@@ -3,11 +3,6 @@
         <x-jet-dropdown align="right" width="48">
 
             <x-slot name="trigger">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                </button>
-                @else
                 <span class="inline-flex rounded-md">
                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
                         Notificaciones <span class="badge bg-secondary ml-2 ">{{$nNotifications}}</span>
@@ -16,17 +11,15 @@
                         </svg>
                     </button>
                 </span>
-                @endif
             </x-slot>
 
 
             <x-slot name="content">
-
                 <!-- Account Management -->
                 <div class="block px-4 py-2 text-xs text-gray-400">
                     {{ __('Notificaciones') }}
                 </div>
-                @if(isset($notifications) && $notifications->isEmpty())
+                @if(isset($notifications) && !$notifications->isEmpty())
                 @foreach($notifications as $notification)
                 <div class="container">
                     <div class="row">
@@ -34,16 +27,13 @@
                             <div class="border-t border-gray-100"></div>
                             <div class="" id="notification-{{$notification->id}}">
                                 <div class="d-flex flex-column flex-wrap ml-2">
-                                    @if($users[$notification->id] != Auth::id())
-                                    <span class="font-weight-bold"><b>Usuario:</b>
-                                        <link href="{{ route('dashboard', ['user_id'=> $users[$notification->id]->id ]) }}">
-                                        {{$users[$notification->id]->name }}
-                                        </link>
+                                    @if($users[$notification->id]->id != Auth::id())
+                                    <span class="font-weight-bold"><b>Usuario:</b> <a href="{{ route('dashboard', ['user_id' => $users[$notification->id]->id]) }}" class="underline">{{$users[$notification->id]->name}}</a></span>
+                                    </link>
                                     </span>
                                     @endif
-                                    <span class="text-black-50 time">Fecha:{{$notification->created_at}}</span>
-                                    <span class="font-weight-bold"><b>Usuario:</b> <a href="{{ route('dashboard', ['user_id' => $users[$notification->id]->id]) }}" class="underline">{{$users[$notification->id]->name}}</a></span>
-                                    <span class="font-weight-bold"><b>Tarea:</b> <a href="{{ route('task_detail',['task' => $tasks[$notification->id]->id]) }}" class="underline">{{$tasks[$notification->id]->name}}</a></span>
+                                    <span class="text-black-50 time">Fecha: {{$notification->created_at}}</span>
+                                    <span class="font-weight-bold"><b>Tarea:</b> <a href="{{ route('task_detail',['task' => $tasks[$notification->id]->id]) }}" class="underline">{{$tasks[$notification->id]->title}}</a></span>
                                 </div>
                             </div>
                         </div>
