@@ -16,41 +16,55 @@
 
             <x-slot name="content">
                 <!-- Account Management -->
-                <div class="block px-4 py-2 text-xs text-gray-400">
-                    {{ __('Notificaciones') }}
+                <div class=" block px-4 py-2 text-xs text-gray-400 ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                {{ __('Notificaciones') }}
+                            </div>
+                            <div class="col">
+                                @if($nNotifications > 2)
+                                <button wire:click="deleteAllNotifications" type=" button" class="btn-close" aria-label="Close"></button>
+                                @endif
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
-                @if(isset($notifications) && !$notifications->isEmpty())
-                @foreach($notifications as $notification)
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <div class="border-t border-gray-100"></div>
-                            <div class="" id="notification-{{$notification->id}}">
-                                <div class="d-flex flex-column flex-wrap ml-2">
-                                    @if($users[$notification->id]->id != Auth::id())
-                                    <span class="font-weight-bold"><b>Usuario:</b> <a href="{{ route('dashboard', ['user_id' => $users[$notification->id]->id]) }}" class="underline">{{$users[$notification->id]->name}}</a></span>
-                                    </link>
-                                    </span>
-                                    @endif
-                                    <span class="text-black-50 time">Fecha: {{$notification->created_at}}</span>
-                                    <span class="font-weight-bold"><b>Tarea:</b> <a href="{{ route('task_detail',['task' => $tasks[$notification->id]->id]) }}" class="underline">{{$tasks[$notification->id]->title}}</a></span>
+                <div class="scroll" style="height: 200px;overflow-y:auto; overflow-x:hidden">
+                    @if(isset($notifications) && !$notifications->isEmpty())
+                    @foreach($notifications as $notification)
+                    <div class="container">
+                        <div class=" row">
+                            <div class="col">
+                                <div class="border-t border-gray-100"></div>
+                                <div class="" id="notification-{{$notification->id}}">
+                                    <div class="d-flex flex-column flex-wrap ml-2">
+                                        @if($users[$notification->id]->id != Auth::id())
+                                        <span class="font-weight-bold"><b>Usuario:</b> <a href="{{ route('dashboard', ['user_id' => $users[$notification->id]->id]) }}" class="underline">{{$users[$notification->id]->name}}</a></span>
+                                        </link>
+                                        </span>
+                                        @endif
+                                        <span class="text-black-50 time">Fecha: {{$notification->created_at}}</span>
+                                        <span class="font-weight-bold"><b>Tarea:</b> <a href="{{ route('task_detail',['task' => $tasks[$notification->id]->id]) }}" class="underline">{{$tasks[$notification->id]->title}}</a></span>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col">
+                                <button id="notification-{{$notification->id}}" wire:click="deleteNotification({{$notification->id}})" type=" button" class="btn-close" aria-label="Close"></button>
+                            </div>
+                            <div class="border-t border-gray-100"></div>
                         </div>
-                        <div class="col">
-                            <button id="notification-{{$notification->id}}" type="button" class="btn-close" aria-label="Close"></button>
+                    </div>
+                    @endforeach
+                    @else
+                    <div class="" style="aling;">
+                        <div class="d-flex flex-column flex-wrap ml-2">
+                            <span class="font-weight-bold"><b>No tiene notificaciones sin leer</b>
                         </div>
-                        <div class="border-t border-gray-100"></div>
                     </div>
+                    @endif
                 </div>
-                @endforeach
-                @else
-                <div class="">
-                    <div class="d-flex flex-column flex-wrap ml-2">
-                        <span class="font-weight-bold"><b>No tiene notificaciones sin leer</b>
-                    </div>
-                </div>
-                @endif
             </x-slot>
         </x-jet-dropdown>
     </div>
