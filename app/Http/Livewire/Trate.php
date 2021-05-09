@@ -56,7 +56,7 @@ class Trate extends Component
         $user = User::find($performerId);
         $user->coins += $this->task->reward;
         $user->save();
-        $this->task->approved = true;
+        $this->task->approved = 1;
         $this->task->save();
         $this->emit(
             'createNotification',
@@ -72,7 +72,7 @@ class Trate extends Component
         $user = User::find($creatorId);
         $user->coins += $this->task->reward;
         $user->save();
-        $this->task->approved = false;
+        $this->task->approved = 5;
         $this->task->save();
         $this->emit(
             'createNotification',
