@@ -27,7 +27,7 @@ class TaskList extends Component
             $taskList = DB::table('tasks')
                 ->join('users', 'tasks.creator_id', '=', 'users.id')
                 ->where('users.province', $myUser->province)
-                ->select('tasks.*')->get();
+                ->select('tasks.*')->where('status', 'pending')->orderByDesc('created_at')->get();
 
             foreach ($taskList as $task) {
                 $this->taskListId[] = $task->id;
