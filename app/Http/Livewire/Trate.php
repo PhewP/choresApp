@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Trating;
-use App\Models\Notification;
+use App\Models\Notification as NotificationModel;
 
 class Trate extends Component
 {
@@ -50,6 +50,11 @@ class Trate extends Component
         //$this->emit('taskCreated');
     }
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function aceptar()
     {
         $performerId = $this->task->performer_id;
@@ -58,12 +63,14 @@ class Trate extends Component
         $user->save();
         $this->task->approved = 1;
         $this->task->save();
-        $this->emit(
-            'createNotification',
-            $this->task->creator_id,
-            $performerId,
-            $this->task->id
-        );
+
+        NotificationModel::Create([
+            'type' => 'status',
+            'origin_id' => $this->task->creator_id,
+            'destination_id' => $performerId,
+            'task_id' => $this->task->id,
+        ]);
+        return redirect()->route('myTask');
     }
 
     public function rechazar()
@@ -74,11 +81,13 @@ class Trate extends Component
         $user->save();
         $this->task->approved = 5;
         $this->task->save();
-        $this->emit(
-            'createNotification',
-            $creatorId,
-            $this->task->performer_id,
-            $this->task->id
-        );
+
+        NotificationModel::Create([
+            'type' => 'status',
+            'origin_id' => $creatorId,
+            'destination_id' => $this->task->performer_id,
+            'task_id' => $this->task->id,
+        ]);
+        return redirect()->route('myTask');
     }
 }
