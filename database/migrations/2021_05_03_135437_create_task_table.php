@@ -26,6 +26,7 @@ class CreateTaskTable extends Migration
             $table->foreignId('performer_id')->nullable()
                 ->constrained('users');
             $table->boolean('approved')->nullable();
+            $table->timestamps();
         });
     }
 
