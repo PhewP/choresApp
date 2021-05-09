@@ -61,9 +61,32 @@ class TaskDetails extends Component
     public function checkExpired()
     {
         if (now() > $this->task->end_date) {
+            if ($this->accepted) {
+                $this->emit(
+                    'createNotification',
+                    $this->task->performer_id,
+                    $this->task->creator_id,
+                    $this->task->id
+                );
+                $this->emit(
+                    'createNotification',
+                    $this->task->creator_id,
+                    $this->task->performer_id,
+                    $this->task->id
+                );
+            }
+            $this->emit(
+                'createNotification',
+                $this->task->creator_id,
+                $this->task->creator_id,
+                $this->task->id
+            );
             $this->expired = true;
             $this->task->status = 'done';
             $this->task->save();
+
+            $user = $this->task->user_creator;
+            $user->coins += $this->task->reward;
         }
     }
 
@@ -127,6 +150,13 @@ class TaskDetails extends Component
         $this->task->performer_id = auth()->user()->id;
         $this->task->status = 'in_progress';
         $this->task->save();
+
+        $this->emit(
+            'createNotification',
+            $this->task->performer_id,
+            $this->task->creator_id,
+            $this->task->id
+        );
     }
 
     public function doneTask()
@@ -136,6 +166,12 @@ class TaskDetails extends Component
             $this->task->status = 'done';
             $this->task->done_date = now();
             $this->task->save();
+            $this->emit(
+                'createNotification',
+                $this->task->performer_id,
+                $this->task->creator_id,
+                $this->task->id
+            );
         }
     }
 }
