@@ -25,10 +25,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/rating/{task}', 'Rating@r
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/task/{task}', 'TaskDetailsController@render')->name('task_detail');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/{user_id}', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/{user_id?}', 'DashController@render')->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+/* Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/{user_id?}', function ($user_id) {
+    
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard'); */
