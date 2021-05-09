@@ -67,11 +67,12 @@
                                     @elseif($task->approved == null)
                                     <span class="badge rounded-pill bg-danger">Validación pendiente</span>
                                     @elseif($task->approved == 1)
-                                    <span class="badge rounded-pill bg-success">Success</span>
+                                    <span class="badge rounded-pill bg-success">Validada</span>
                                     @else
-                                    <span class="badge rounded-pill bg-danger">Danger</span>
+                                    <span class="badge rounded-pill bg-danger">Rechazada</span>
                                     @endif
                                     @endif
+                                    <br />
                                     @endforeach
                             </div>
                         </div>
@@ -118,6 +119,7 @@
                                 <span class="badge rounded-pill bg-info text-dark">Rechazada</span>
                                 @endif
                                 @endif
+                                </br>
                                 @endforeach
                             </div>
                         </div>
