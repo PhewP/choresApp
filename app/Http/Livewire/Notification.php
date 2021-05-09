@@ -66,4 +66,16 @@ class Notification extends Component
         $this->fetchNotifications();
         $this->nNotifications = isset($this->notifications) ? count($this->notifications) : 0;
     }
+
+    public function deleteNotification($notificationId)
+    {
+        NotificationModel::destroy($notificationId);
+        $this->refresh();
+    }
+
+    public function deleteAllNotifications()
+    {
+        NotificationModel::where('destination_id', auth()->user()->id)->delete();
+        $this->refresh();
+    }
 }
