@@ -14,15 +14,14 @@ class Trating extends Model
      * The attributes that are mass assignable.
      *
      * @var array
-    */
+     */
 
     protected $fillable = [
-        'score', 'comment', 'performance', 'speed', 'accuracy'
+        'score', 'performance', 'speed', 'accuracy', 'comment', 'task_id'
     ];
 
-    public function task() {
+    public function task()
+    {
         $this->BelongsTo(Task::class);
     }
-
-
 }
