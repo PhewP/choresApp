@@ -41,12 +41,12 @@
 
                     <div class="mt-3 mr-3">
                         <x-jet-button type="submit" wire:click="aceptar()">
-                            <a href="{{ route('myTask') }}" class="underline">Aceptar</a>
+                            Aceptar
                         </x-jet-button>
                     </div>
                     <div class="mt-3 mr-3">
                         <x-jet-button type="submit" wire:click="rechazar()">
-                            <a href="{{ route('myTask') }}" class="underline">Rechazar</a>
+                            Rechazar
                         </x-jet-button>
                     </div>
 

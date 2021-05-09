@@ -87,9 +87,12 @@
           </div>
           @elseif($task->status == "done" && now() < $task->end_date && !$approved)
             <div class="mt-3 mr-3">
-              <x-jet-button wire:click.stop="doneTask">
-                <a href="{{ route('rating', ['task'=>$task->id]) }}" class="underline">Validar Tarea</a>
-              </x-jet-button>
+              <a href="{{ route('rating', ['task'=>$task->id]) }}">
+                <x-jet-button wire:click.stop="doneTask">
+                  Validar Tarea
+                </x-jet-button>
+              </a>
+
             </div>
             @endif
 
