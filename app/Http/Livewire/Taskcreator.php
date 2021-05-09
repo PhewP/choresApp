@@ -29,8 +29,8 @@ class Taskcreator extends Component
             'reward' => ['required', 'numeric', 'min:1', 'max:' . auth()->user()->coins],
             'description' => ['required', 'min:20'],
             'categoryName' => ['required', Rule::in($this->categoryNames)],
-            'ini_date' => ['required', 'after:' . now()],
-            'end_date' => ['required', 'after:' . $this->ini_date]
+            'ini_date' => ['required', 'after_or_equal:' . now()],
+            'end_date' => ['required', 'after_or_equal:' . ($this->ini_date ? $this->ini_date : now())]
         ];
     }
 
