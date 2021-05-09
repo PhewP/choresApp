@@ -25,7 +25,7 @@ class CreateTaskTable extends Migration
             $table->foreignId('creator_id')->constrained('users');
             $table->foreignId('performer_id')->nullable()
                 ->constrained('users');
-            $table->boolean('approved')->default(false);
+            $table->boolean('approved')->nullable();
         });
     }
 
