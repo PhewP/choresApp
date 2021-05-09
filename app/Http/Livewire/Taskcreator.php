@@ -59,6 +59,11 @@ class Taskcreator extends Component
         $user->coins -= $this->reward;
         $user->save();
         $this->emit('taskCreated');
+        $this->cleanInputs();
+    }
+
+    public function cleanInputs()
+    {
         $this->reset(['title', 'reward', 'description', 'ini_date', 'end_date', 'categoryName']);
     }
 
