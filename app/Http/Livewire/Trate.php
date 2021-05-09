@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\Trating;
 
 class Trate extends Component
 {
@@ -11,6 +12,7 @@ class Trate extends Component
     public $speed;
     public $accuracy;
     public $performance;
+    public $comment;
 
     public $task;
 
@@ -26,26 +28,44 @@ class Trate extends Component
             'speed' => ['required', 'numeric', 'min:1', 'max:10'],
             'accuracy' => ['required', 'numeric', 'min:1', 'max:10'],
             'performance' => ['required', 'numeric', 'min:1', 'max:10'],
+            'comment' => ['min:20'],
         ];
     }
 
     public function createRate()
     {
         $this->validate();
-        $userId = $this->task->performer_id;
 
-        Trate::create([
+        Trating::create([
             'score' => $this->score,
             'speed' => $this->speed,
             'accuracy' => $this->accuracy,
             'performance' => $this->performance,
-            'task_id' => $this->task->id
+            'comment' => $this->comment,
+            'task_id' => $this->task->id,
         ]);
 
-        $user = User::find($userId);
-        $user->coins += $this->task->reward;
-        $user->save();
         //session()->flash('message', 'Tarea creada');
         //$this->emit('taskCreated');
+    }
+
+    public function aceptar()
+    {
+        $creatorId = $this->task->performer_id;
+        $user = User::find($creatorId);
+        $user->coins += $this->task->reward;
+        $user->save();
+        $this->task->approved = 1;
+        $this->task->save();
+    }
+
+    public function rechazar()
+    {
+        $performerId = $this->task->creator_id;
+        $user = User::find($performerId);
+        $user->coins += $this->task->reward;
+        $user->save();
+        $this->task->approved = 5;
+        $this->task->save();
     }
 }
