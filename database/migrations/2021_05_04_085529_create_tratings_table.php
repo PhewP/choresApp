@@ -16,9 +16,10 @@ class CreateTratingsTable extends Migration
         Schema::create('tratings', function (Blueprint $table) {
             $table->id();
             $table->float('score')->nullable();
-            $table->string('comment')->nullable();
             $table->float('performance')->nullable();
-            $table->string('speed')->nullable();
+            $table->float('speed')->nullable();
+            $table->float('accuracy')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
             $table->foreignId('task_id')
                 ->constrained()
