@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Trating;
+use App\Models\Notification;
 
 class Trate extends Component
 {
@@ -51,21 +52,33 @@ class Trate extends Component
 
     public function aceptar()
     {
-        $creatorId = $this->task->performer_id;
-        $user = User::find($creatorId);
+        $performerId = $this->task->performer_id;
+        $user = User::find($performerId);
         $user->coins += $this->task->reward;
         $user->save();
-        $this->task->approved = 1;
+        $this->task->approved = true;
         $this->task->save();
+        $this->emit(
+            'createNotification',
+            $this->task->creator_id,
+            $performerId,
+            $this->task->id
+        );
     }
 
     public function rechazar()
     {
-        $performerId = $this->task->creator_id;
-        $user = User::find($performerId);
+        $creatorId = $this->task->creator_id;
+        $user = User::find($creatorId);
         $user->coins += $this->task->reward;
         $user->save();
-        $this->task->approved = 5;
+        $this->task->approved = false;
         $this->task->save();
+        $this->emit(
+            'createNotification',
+            $creatorId,
+            $this->task->performer_id,
+            $this->task->id
+        );
     }
 }
