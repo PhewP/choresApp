@@ -85,8 +85,7 @@
               </div>
             </div>
           </div>
-          @elseif($task->status == "done" && now() < $task->end_date)
-
+          @elseif($task->status == "done" && now() < $task->end_date && !$approved)
             <div class="mt-3 mr-3">
               <x-jet-button wire:click.stop="doneTask">
                 <a href="{{ route('rating', ['task'=>$task->id]) }}" class="underline">Validar Tarea</a>
@@ -111,9 +110,13 @@
               <div class="alert alert-warning">
                 La tarea ha expirado.
               </div>
-              @elseif($done)
+              @elseif($done && !isset($approved))
               <div class="alert alert-warning">
                 Tarea realizada a la espera de ser aprobada.
+              </div>
+              @elseif($done && isset($approved) && $approved != 1)
+              <div class="alert alert-warning">
+                Tarea realizada sin éxito.
               </div>
               @elseif(isset($approved) && $approved)
               <div class="alert alert-success">
