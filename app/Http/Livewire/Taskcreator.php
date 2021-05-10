@@ -34,7 +34,9 @@ class Taskcreator extends Component
             'description' => ['required', 'min:20'],
             'categoryName' => ['required', Rule::in($this->categoryNames)],
             'ini_date' => ['required', 'after_or_equal:' . now()->format("Y/m/d")],
-            'end_date' => ['required', 'after_or_equal:' . ($this->ini_date ? explode(" ", $this->ini_date)[0] : now()->format("Y/m/d"))]
+            'ini_hour' => ['required', 'after_or_equal:' . (($this->ini_date && explode(" ", $this->ini_date)[0] == now()->format("Y-m-d")) ? now()->format("H:i:s") : true)],
+            'end_date' => ['required', 'after_or_equal:' . ($this->ini_date ? explode(" ", $this->ini_date)[0] : now()->format("Y/m/d"))],
+            'end_hour' => ['required', 'after_or_equal:' . (($this->end_date && $this->ini_hour && $this->ini_date && explode(" ", $this->ini_date)[0] == explode(" ", $this->end_date)[0]) ? $this->ini_hour : true)]
         ];
     }
 
@@ -74,7 +76,7 @@ class Taskcreator extends Component
 
     public function cleanInputs()
     {
-        $this->reset(['title', 'reward', 'description', 'ini_date', 'end_date', 'categoryName']);
+        $this->reset(['title', 'reward', 'description', 'ini_date', 'ini_hour', 'end_date', 'end_hour', 'categoryName']);
         $this->resetValidation();
     }
 
