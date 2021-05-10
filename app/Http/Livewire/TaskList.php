@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\DB;
 class TaskList extends Component
 {
     public $taskListId = [];
+    protected $taskLists;
     protected $listeners = ['taskCreated' => 'show_task'];
 
     public function render()
     {
         $this->show_task();
-        return view('livewire.task-list');
+        return view('livewire.task-list')->with(['taskLists' => $this->taskLists]);
     }
 
     public function show_task()
@@ -24,12 +25,12 @@ class TaskList extends Component
         $this->taskListId = [];
         $myUser = User::where('id', Auth::id())->first();
         if (isset($myUser)) {
-            $taskList = DB::table('tasks')
+            $this->taskLists = DB::table('tasks')
                 ->join('users', 'tasks.creator_id', '=', 'users.id')
                 ->where('users.province', $myUser->province)
-                ->select('tasks.*')->where('status', 'pending')->orderByDesc('created_at')->get();
+                ->select('tasks.*')->where('status', 'pending')->orderByDesc('created_at')->paginate(3);
 
-            foreach ($taskList as $task) {
+            foreach ($this->taskLists as $task) {
                 $this->taskListId[] = $task->id;
             }
         }
