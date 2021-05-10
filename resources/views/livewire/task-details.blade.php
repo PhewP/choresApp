@@ -74,10 +74,18 @@
                     </div>
 
                     <div class="mt-3 mr-3">
+                      @if($task->status!="pending")
+                      <x-jet-button type="submit" disabled>Editar</x-jet-button>
+                      @else
                       <x-jet-button type="submit">Editar</x-jet-button>
+                      @endif
                     </div>
-                    <div class="mt-3 mr-3">
+                    <div class="mt-3 mr-3" @if($task->status!="pending")disabled @endif>
+                      @if($task->status!="pending")
+                      <x-jet-button type="submit" disabled>Limpiar</x-jet-button>
+                      @else
                       <x-jet-button type="submit">Limpiar</x-jet-button>
+                      @endif
                     </div>
                   </form>
                 </div>
