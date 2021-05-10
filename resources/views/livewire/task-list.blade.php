@@ -1,11 +1,13 @@
     <div>
-        @if(isset($taskListId))
+        @if(isset($taskListId) && count($taskListId) > 0)
         @foreach($taskListId as $taskId)
         <div>
             @livewire('task-card', ['taskId'=> $taskId], key($taskId))
         </div>
         @endforeach
+        @if(isset($taskList))
         {{$taskLists->render()}}
+        @endif
         @else
         <div style="margin-bottom: 30px;">
             <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white border">
