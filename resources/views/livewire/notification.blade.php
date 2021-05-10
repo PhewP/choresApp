@@ -46,7 +46,16 @@
                                         </span>
                                         @endif
                                         <span class="text-black-50 time">Fecha: {{$notification->created_at}}</span>
-                                        <span class="font-weight-bold"><b>Tarea:</b> <a href="{{ route('task_detail',['task' => $tasks[$notification->id]->id]) }}" class="underline">{{$tasks[$notification->id]->title}}</a></span>
+
+                                        <span class="font-weight-bold">
+                                            <b>
+                                                @if($notification->type=="status")
+                                                Actualizó la
+                                                @elseif($notification->type=="comment")
+                                                Comentó la
+                                                @endif
+                                                Tarea
+                                                :</b> <a href="{{ route('task_detail',['task' => $tasks[$notification->id]->id]) }}" class="underline">{{$tasks[$notification->id]->title}}</a></span>
                                     </div>
                                 </div>
                             </div>
