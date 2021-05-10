@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class Dashcomponent extends Component
 {
@@ -27,13 +28,13 @@ class Dashcomponent extends Component
 
         $this->trateList = DB::table('tratings')
             ->join('tasks', 'tratings.task_id', '=', 'tasks.id')
-            ->where('tasks.performer_id', $this->user)
+            ->where('tasks.performer_id', $this->user->id)
             ->select('tratings.*')->get();
     }
 
     public function mount($user_id)
     {
-        $this->user = $user_id;
+        $this->user = User::find($user_id);
         $this->refresh();
     }
 
