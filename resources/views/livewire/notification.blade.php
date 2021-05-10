@@ -58,7 +58,7 @@
                     </div>
                     @endforeach
                     @else
-                    <div class="" style="aling;">
+                    <div class="">
                         <div class="d-flex flex-column flex-wrap ml-2">
                             <span class="font-weight-bold"><b>No tiene notificaciones sin leer</b>
                         </div>
