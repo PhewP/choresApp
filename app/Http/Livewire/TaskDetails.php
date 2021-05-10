@@ -205,6 +205,8 @@ class TaskDetails extends Component
 
     public function acceptTask()
     {
+        $this->refreshComments();
+
         $this->accepted = true;
         session()->flash('message', 'Tarea Aceptada');
         $this->task->performer_id = auth()->user()->id;
