@@ -5,7 +5,7 @@
             @livewire('task-card', ['taskId'=> $taskId], key($taskId))
         </div>
         @endforeach
-        @if(isset($taskList))
+        @if(isset($taskLists))
         {{$taskLists->render()}}
         @endif
         @else
