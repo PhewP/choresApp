@@ -90,10 +90,11 @@ class TaskCard extends Component
 
     public function createComment()
     {
+        $this->refreshComments();
         $this->validate();
         Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->taskId]);
-        $this->refreshComments();
         $this->reset(['commentText']);
+        $this->refreshComments();
     }
     public function deleteComment($commentId)
     {
