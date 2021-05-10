@@ -1,5 +1,5 @@
 <div style="margin-bottom: 30px;">
-  <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white border">
+  <div class="flex-row justify-content-between align-items-center p-2 bg-white border">
     <div class="feed-text px-2">
       <div class="container">
         <center>
@@ -43,9 +43,8 @@
                     <div class="form-group">
                       <x-jet-label for="categoryName" value="{{ __('Categoría') }}" />
                       <select required class="form-control" wire:model="categoryName">
-                        <option selected hidden value="{{ $task->category }}"></option>
                         @foreach($categoryNames as $category)
-                        <option>{{$category}}</option>
+                        <option @if($categoryName==$category) selected @endif>{{$category}}</option>
                         @endforeach
                       </select>
                       <x-jet-input-error for="categoryName" class="mt-2" />
