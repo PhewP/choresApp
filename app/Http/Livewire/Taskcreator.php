@@ -21,6 +21,8 @@ class Taskcreator extends Component
 
     public $categoryNames = [];
 
+    public $statusGroupOpen = false;
+
 
     protected function rules()
     {
@@ -32,6 +34,12 @@ class Taskcreator extends Component
             'ini_date' => ['required', 'after_or_equal:' . now()],
             'end_date' => ['required', 'after_or_equal:' . ($this->ini_date ? $this->ini_date : now())]
         ];
+    }
+
+    public function manageCollapse()
+    {
+        $this->statusGroupOpen = !$this->statusGroupOpen ? true : false;
+        $this->cleanInputs();
     }
 
     public function updated($propertyName)
@@ -65,6 +73,7 @@ class Taskcreator extends Component
     public function cleanInputs()
     {
         $this->reset(['title', 'reward', 'description', 'ini_date', 'end_date', 'categoryName']);
+        $this->resetValidation();
     }
 
     public function mount()
