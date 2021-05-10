@@ -17,10 +17,10 @@ class Notification extends Component
     protected $listeners = ['createNotification'];
 
 
-    public function createNotification($originId, $creatorId, $taskId)
+    public function createNotification($originId, $creatorId, $taskId, $type = "status")
     {
         NotificationModel::Create([
-            'type' => 'status',
+            'type' => $type,
             'origin_id' => $originId,
             'destination_id' => $creatorId,
             'task_id' => $taskId,
