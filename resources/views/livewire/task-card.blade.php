@@ -21,13 +21,13 @@
                 <div class="like p-2 cursor" id="likeBtn-{{$task->id}}" role='button' wire:click="addLike">
                     <i class="fa fa-thumbs-up"><span id="likesCounter-{{$task->id}}" class="badge badge-light" style="color:black">{{$likes}}</span></i>
                 </div>
-                <div class="p-2 cursor" role="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-{{$task->id}}" aria-expanded="false" aria-controls="collapseExample">
+                <div class="p-2 cursor collapsed" role="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-{{$task->id}}" wire:click="manageCollapse" aria-expanded:="true" aria-controls="#collapseComments-{{$task->id}}" data-bs-collapse aria-expanded="false" aria-controls="collapseExample">
                     <i class="fa fa-comments-o"><span id="commentsCounter-{{$task->id}}" class="badge badge-light" style="color:black">{{$nComments}}</span></i>
                 </div>
             </div>
         </div>
 
-        <div id="collapseComments-{{$task->id}}" class="collapse">
+        <div id="collapseComments-{{$task->id}}" class="collapse @if ($statusGroupOpen) show @endif">
 
             <div id="comments-{{$task->id}}" class="d-flex flex-column p-2">
                 @if(isset($comments) && !$comments->isEmpty())
@@ -71,10 +71,12 @@
             <div class=" d-flex flex-row align-items-start" style="margin-top: 20px;">
                 <div class='circle-img img-circle rounded-circle'>
                 </div>
-                <textarea class="form-control ml-1 shadow-none textarea" id="comment-message-{{$task->id}}" placeholder="Escriba un comentario..." wire:model.lazy="commentText"></textarea>
+                <textarea class="form-control ml-1 shadow-none textarea" id="comment-message-{{$task->id}}" placeholder="Escriba un comentario..." wire:model="commentText"></textarea><br />
+
             </div>
 
             <div class="mt-2 text-right action-collapse">
+                <x-jet-input-error for="commentText" class="mt-2" />
                 <x-jet-button type="button" id="comment-button-{{$task->id}}" wire:click.stop="createComment">Comment</x-jet-button>
                 <x-jet-button wire:click="clearComment" class="shadow-none" role="button" data-bs-toggle="collapse" data-bs-target="#collapseComments-{{$task->id}}" aria-expanded="false" aria-controls="collapseExample">
                     Cancel

@@ -19,10 +19,34 @@ class TaskCard extends Component
     public $commentText;
     public $comments;
     public $commentUsers = [];
+    public $statusGroupOpen = false;
+
+    protected function rules()
+    {
+        return [
+            'commentText' => ['required', 'min:10'],
+        ];
+    }
+
 
     public function render()
     {
         return view('livewire.task-card');
+    }
+
+    public function manageCollapse()
+    {
+
+        $this->refreshComments();
+
+        $this->statusGroupOpen = !$this->statusGroupOpen ? true : false;
+        $this->cleanInputs();
+    }
+
+    public function cleanInputs()
+    {
+        $this->reset(['commentText']);
+        $this->resetValidation();
     }
 
 
@@ -57,14 +81,16 @@ class TaskCard extends Component
         $this->commentText = null;
     }
 
-    public function updated()
+    public function updated($propertyName)
     {
         $this->refreshComments();
+        $this->validateOnly($propertyName);
     }
 
 
     public function createComment()
     {
+        $this->validate();
         Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->taskId]);
         $this->refreshComments();
         $this->reset(['commentText']);
