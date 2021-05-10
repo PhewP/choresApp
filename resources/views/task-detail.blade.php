@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('content')
-@if(auth()->user()->id == $task->creator_id || auth()->user()->id == $task->performer_id)
+@if( $task->status == "pending" || (auth()->user()->id == $task->creator_id || auth()->user()->id == $task->performer_id))
 @livewire('task-details', ['task' => $task])
 @else
 <div>
