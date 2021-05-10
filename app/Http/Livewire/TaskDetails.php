@@ -60,6 +60,14 @@ class TaskDetails extends Component
         $this->validate(['commentText' => 'min:10']);
         Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->task->id]);
         $this->reset(['commentText']);
+        $this->refreshComments();
+        $this->emit(
+            'createNotification',
+            auth()->user()->id,
+            $this->task->creator_id,
+            $this->task->id,
+            'comment'
+        );
     }
 
     public function refreshComments()
@@ -151,6 +159,7 @@ class TaskDetails extends Component
         $this->title = $task->title;
         $this->description = $task->description;
         $this->reward = $task->reward;
+        $this->categoryName = $task->category;
         $this->checkAccepted();
         $this->checkApproved();
         $this->checkDone();
@@ -159,6 +168,7 @@ class TaskDetails extends Component
         foreach ($allCategories as $category) {
             $this->categoryNames[] = $category->name;
         }
+        $this->refreshComments();
     }
     public function updated($propertyName)
     {
@@ -169,6 +179,7 @@ class TaskDetails extends Component
 
     public function modifyTask()
     {
+        $this->refreshComments();
         $this->validate();
         $id = auth()->user()->id;
         $categoryId = Category::where('name', $this->categoryName)->first()->id;
@@ -210,6 +221,7 @@ class TaskDetails extends Component
 
     public function doneTask()
     {
+        $this->refreshComments();
         if (!($this->expired)) {
             $this->done = true;
             $this->task->status = 'done';
