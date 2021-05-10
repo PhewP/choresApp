@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use App\Models\Comment;
 
 class TaskDetails extends Component
 {
@@ -25,6 +26,53 @@ class TaskDetails extends Component
     public $approved;
     public $rejected;
 
+    public $nComments;
+    public $statusGroupOpen = false;
+    public $comments;
+    public $commentText;
+    public $commentUsers = [];
+
+
+    public function deleteComment($commentId)
+    {
+        Comment::destroy($commentId);
+        $this->refreshComments();
+    }
+
+    public function manageCollapse()
+    {
+
+        $this->refreshComments();
+
+        $this->statusGroupOpen = !$this->statusGroupOpen ? true : false;
+        $this->cleanInputs();
+    }
+
+    public function cleanInputs()
+    {
+        $this->reset(['commentText']);
+        $this->resetValidation();
+    }
+
+    public function createComment()
+    {
+        $this->refreshComments();
+        $this->validate(['commentText' => 'min:10']);
+        Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->task->id]);
+        $this->reset(['commentText']);
+    }
+
+    public function refreshComments()
+    {
+        $this->commentUsers = [];
+        $this->comments = Comment::where('task_id', $this->task->id)->get();
+        foreach ($this->comments as $comment) {
+            $this->commentUsers[$comment->id] = $comment->user;
+        }
+
+        $this->nComments = $this->comments->count();
+    }
+
 
     protected function rules()
     {
@@ -34,7 +82,7 @@ class TaskDetails extends Component
             'description' => ['required', 'min:20'],
             'categoryName' => ['required', Rule::in($this->categoryNames)],
             'ini_date' => ['required', 'after:' . now()],
-            'end_date' => ['required', 'after:' . $this->ini_date]
+            'end_date' => ['required', 'after:' . $this->ini_date],
         ];
     }
 
@@ -114,7 +162,8 @@ class TaskDetails extends Component
     }
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        $this->refreshComments();
+        $this->validateOnly($propertyName, ['commentText' => 'required|min:10']);
     }
 
 
