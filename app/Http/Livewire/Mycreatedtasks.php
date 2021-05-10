@@ -18,6 +18,7 @@ class Mycreatedtasks extends Component
 
     public function render()
     {
+        $this->refreshTask();
         $this->showCreatedtask();
         $this->showAceptedtask();
         return view('livewire.mycreatedtasks');
@@ -62,6 +63,10 @@ class Mycreatedtasks extends Component
         $this->taskCreatedList = [];
         $this->tasks = Task::where('creator_id', Auth::id())->get();
         foreach ($this->tasks as $task) {
+            if ($task->end_date < now()) {
+                $task->status = 'done';
+                $task->save();
+            }
             $this->taskCreatedList = $task;
         }
     }
