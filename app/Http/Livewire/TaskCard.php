@@ -95,6 +95,18 @@ class TaskCard extends Component
         Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->taskId]);
         $this->reset(['commentText']);
         $this->refreshComments();
+
+        foreach ($this->commentUsers as $user) {
+            if (auth()->user()->id != $user->id) {
+                $this->emit(
+                    'createNotification',
+                    auth()->user()->id,
+                    $user->id,
+                    $this->task->id,
+                    'comment'
+                );
+            }
+        }
     }
     public function deleteComment($commentId)
     {
