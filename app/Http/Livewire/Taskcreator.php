@@ -17,6 +17,8 @@ class Taskcreator extends Component
     public $description;
     public $categoryName;
     public $ini_date;
+    public $ini_hour;
+    public $end_hour;
     public $end_date;
 
     public $categoryNames = [];
@@ -31,8 +33,8 @@ class Taskcreator extends Component
             'reward' => ['required', 'numeric', 'min:1', 'max:' . auth()->user()->coins],
             'description' => ['required', 'min:20'],
             'categoryName' => ['required', Rule::in($this->categoryNames)],
-            'ini_date' => ['required', 'after_or_equal:' . now()],
-            'end_date' => ['required', 'after_or_equal:' . ($this->ini_date ? $this->ini_date : now())]
+            'ini_date' => ['required', 'after_or_equal:' . now()->format("Y/m/d")],
+            'end_date' => ['required', 'after_or_equal:' . ($this->ini_date ? explode(" ", $this->ini_date)[0] : now()->format("Y/m/d"))]
         ];
     }
 
@@ -57,8 +59,8 @@ class Taskcreator extends Component
             'title' => $this->title,
             'reward' => $this->reward,
             'description' => $this->description,
-            'ini_date' => $this->ini_date,
-            'end_date' => $this->end_date,
+            'ini_date' => explode(" ", $this->ini_date)[0] . " " . $this->ini_hour,
+            'end_date' => explode(" ", $this->end_date)[0] . " " . $this->end_hour,
             'creator_id' => $id,
             'category_id' => $categoryId,
         ]);

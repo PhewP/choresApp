@@ -46,10 +46,26 @@
           </div>
 
           <div class="field">
+            <x-jet-label for="ini_hour" value="{{ __('Hora Inicio') }}" />
+            <div class="control">
+              <x-jet-input id="ini_date" wire:model="ini_hour" class="mt-1 block w-full" type="time" min={{now()}} />
+              <x-jet-input-error for="ini_hour" class="mt-2" />
+            </div>
+          </div>
+
+          <div class="field">
             <x-jet-label for="end_date" value="{{ __('Fecha limite') }}" />
             <div class="control">
               <x-jet-input id="end_date" wire:model="end_date" class="mt-1 block w-full" type="date" min={{now()}} />
               <x-jet-input-error for="end_date" class="mt-2" />
+            </div>
+          </div>
+
+          <div class="field">
+            <x-jet-label for="end_hour" value="{{ __('Hora Límite') }}" />
+            <div class="control">
+              <x-jet-input id="ini_date" wire:model="end_hour" class="mt-1 block w-full" type="time" min={{now()}} />
+              <x-jet-input-error for="end_hour" class="mt-2" />
             </div>
           </div>
 

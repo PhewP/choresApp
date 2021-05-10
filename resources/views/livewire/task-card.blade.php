@@ -7,7 +7,7 @@
                 <span class="font-weight-bold"><b>Recompensa: </b>{{$task->reward}} </span>
 
                 <span class="text-black-50 time">Fecha de Inicio: {{$task->ini_date}}</span>
-                <span class="text-black-50 time">Fecha de Finalización: {{$task->end_date}}</span>
+                <span class="text-black-50 time">Fecha de Limite: {{$task->end_date}}</span>
             </div>
         </div>
     </div>
