@@ -61,10 +61,11 @@ class TaskDetails extends Component
         Comment::create(['description' => $this->commentText, 'user_id' => auth()->user()->id, 'task_id' => $this->task->id]);
         $this->reset(['commentText']);
         $this->refreshComments();
+        $destination_user = (auth()->user()->id == $this->task->creator_id) ? $this->task->performer_id : $this->task->creator_id;
         $this->emit(
             'createNotification',
             auth()->user()->id,
-            $this->task->creator_id,
+            $destination_user,
             $this->task->id,
             'comment'
         );
