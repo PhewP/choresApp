@@ -67,7 +67,6 @@ class Mycreatedtasks extends Component
                 $task->status = 'done';
                 $task->save();
                 $user = User::find($task->creator_id);
-                $user->coins += $task->reward;
                 $user->save();
             }
             $this->taskCreatedList = $task;
