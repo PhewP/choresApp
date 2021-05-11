@@ -10,7 +10,7 @@
         <div>
             <div class="card card-body">
 
-                <form wire:submit.prevent="createRate">
+                <form wire:submit.prevent="">
 
                     <div class="col-span-6 sm:col-span-4">
                         <x-jet-label for="score" value="{{ __('Califique la tarea (1 - 10)') }}" />
@@ -31,12 +31,6 @@
                         <x-jet-label for="performance" value="{{ __('Califique la ejecución (1 - 10)') }}" />
                         <x-jet-input id="performance" type="number" class="mt-1 block w-full" wire:model="performance" />
                         <x-jet-input-error for="performance" class="mt-2" />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="comment" value="{{ __('Deja tu comentario (Opcional)') }}" />
-                        <x-jet-input id="comment" type="text" class="mt-1 block w-full" wire:model="comment" />
-                        <x-jet-input-error for="comment" class="mt-2" />
                     </div>
 
                     <div class="mt-3 mr-3">
