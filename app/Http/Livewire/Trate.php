@@ -29,7 +29,7 @@ class Trate extends Component
             'speed' => ['required', 'numeric', 'min:1', 'max:10'],
             'accuracy' => ['required', 'numeric', 'min:1', 'max:10'],
             'performance' => ['required', 'numeric', 'min:1', 'max:10'],
-            'comment' => ['min:20'],
+            'comment' => ['nullable', 'min:20'],
         ];
     }
 
